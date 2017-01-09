@@ -65,3 +65,4 @@ p <- ggplot(data=tf, aes(x=x, y=y)) +
   theme_bw()
 animation::ani.options(interval = 1/15)
 gganimate(p)
+```
