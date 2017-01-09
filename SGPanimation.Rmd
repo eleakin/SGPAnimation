@@ -4,7 +4,36 @@ output: github_document
 ---
 
 ```{r setup, include=FALSE}
+
+#The following chunk is taken and modified from dgrtwo's github page. It makes is possible for GIFs to render on a github page
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "SGPAnimationFiles/fig-",
+  cache.path = "SGPAnimationFiles/cache-"
+)
+library(knitr)
+library(animation)
 knitr::opts_chunk$set(echo = TRUE)
+opts_knit$set(animation.fun = function(x, options, format = "gif") {
+  x = c(knitr:::sans_ext(x), knitr:::file_ext(x))
+  fig.num = options$fig.num
+  format = sub("^[.]", "", format)
+  fig.fname = paste0(sub(paste0(fig.num, "$"), "*", x[1]), 
+                     ".", x[2])
+  mov.fname = paste0(sub(paste0(fig.num, "$"), "", x[1]), ".", 
+                     format)
+
+  # order correctly
+  figs <- Sys.glob(fig.fname)
+  figs <- figs[order(as.numeric(stringr::str_match(figs, paste0("(\\d+)\\.", x[2]))[, 2]))]
+
+  animation::im.convert(figs, output = mov.fname)
+
+  sprintf("![%s](%s)", options$label, paste0(opts_knit$get("base.url"), mov.fname))
+})
+
+opts_chunk$set(cache = TRUE, message = FALSE, warning = FALSE, fig.show = "animate")
 ```
 
 ## Purpose
@@ -46,7 +75,7 @@ ts <- list(t, t2)
 ```
 
 ## Apply **tweenr** Function and Plot
-For the time being, I am just trying to wrap my head around using **tweenr** package. The gola is to plot 10 distinct points that then convert into a larger point.
+For the time being, I am just trying to wrap my head around using **tweenr** package. The goal is to plot 10 distinct points that lie on the x-axis and then converge into a larger point on the y-axis.
 
 Still having trouble plotting the animation file in markdown and getting the plot to loop/run quickly.
 ```{r tweenr, echo=TRUE, fig.show='animate', interval=1/15}
@@ -66,3 +95,4 @@ p <- ggplot(data=tf, aes(x=x, y=y)) +
 animation::ani.options(interval = 1/15)
 gganimate(p)
 ```
+The plot above should be animated.

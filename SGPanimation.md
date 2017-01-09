@@ -64,18 +64,8 @@ p <- ggplot(data=tf, aes(x=x, y=y)) +
   scale_alpha(range = c(1, 1), guide = 'none') +
   scale_size(range = c(2, 15), guide = 'none') + 
   theme_bw()
-```
-
-    ## Warning: Ignoring unknown aesthetics: frame
-
-``` r
 animation::ani.options(interval = 1/15)
 gganimate(p)
 ```
 
-<video   controls loop>
-<source src="SGPanimation_files/figure-markdown_github/tweenr-.webm" />
-<p>
-video of chunk tweenr
-</p>
-</video>
+![tweenr](SGPAnimationFiles/fig-tweenr-.gif) The plot above should be animated.
