@@ -11,9 +11,17 @@ d <- data.frame(x = rnorm(50), y = rnorm(50), time = sample(100, 50), alpha = 1,
 d2<-d
 d2$time <- d$time + 10
 
-d3 <- d2
+#Run regression and predict new set of datapoints to shift into
+trueLm<-lm(y~x, d)
+d3<-data.frame(x =d[1], y =predict(lm(y~x,d)),
+                    colour=rep('#F8766D',50),
+                    stringsAsFactors = FALSE)
+d4 <- d3
 
-ts <- list(d, d2,d3)
+
+
+
+ts <- list(d, d2,d3,d4)
 
 
 # Using tweenr
@@ -32,43 +40,18 @@ xaxisLine <- xaxisLine[rep(1, 152),1,drop=FALSE]
 xaxisLine$.frame <- 1:152
 
 #Plot y-axis title
-yaxisLogo <- data.frame(x=-2.5, y=0, label = 'EOY Achievement', stringsAsFactors = F)
-yaxisLogo <- yaxisLogo[rep(1, 152),]
-yaxisLogo$.frame <- 1:152
+yaxisLogo_1 <- data.frame(x=-2.5, y=0, label = 'EOY Achievement', stringsAsFactors = F)
+yaxisLogo_1 <- yaxisLogo_1[rep(1, 95),]
+yaxisLogo_1$.frame <- 1:95
+yaxisLogo_2 <- data.frame(x=-2.5, y=0, label = 'Predicted EOY Achievement', stringsAsFactors = F)
+yaxisLogo_2 <- yaxisLogo_2[rep(1, 57),]
+yaxisLogo_2$.frame <- 96:152
+yaxisLogo<-rbind(yaxisLogo_1, yaxisLogo_2)
 
 #Plot y-axis line
 yaxisLine <- data.frame(x=-2.25, stringsAsFactors = F)
 yaxisLine <- yaxisLine[rep(1, 152),1,drop=FALSE]
 yaxisLine$.frame <- 1:152
-
-#Create dataframe of random regression lines
-reg<-data.frame(x =sample(c(-0.5,0,0.5),10, replace=TRUE), y = runif(10, min=0, max=2),
-                colour='#F8766D',
-                stringsAsFactors = FALSE)
-reg<-reg[rep(seq_len(nrow(reg)), each=10),]
-
-reg$time<-sample(100, 10)
-
-#Add true regression line to dataframe
-trueLm<-lm(y~x, d)
-trueReg<-data.frame(x =rep(coef(trueLm)[1],6), y =rep(coef(trueLm)[2],6),
-                colour=rep(c('#F8766D',"white","white"),6),
-                stringsAsFactors = FALSE)
-trueReg$time<-sample(100, 6)
-
-finalReg<-data.frame(x =rep(coef(trueLm)[1],20), y =rep(coef(trueLm)[2],20),
-                    colour=rep(c('#F8766D'),20),
-                    stringsAsFactors = FALSE)
-finalReg$time<-sample(100, 20)
-
-
-reg<-rbind(reg,trueReg, finalReg)
-
-
-
-reg$.frame<-15:152
-
-
 
 # Animate with gganimate
 p <- ggplot(data=tf, aes(x=x, y=y)) + 
@@ -77,8 +60,7 @@ p <- ggplot(data=tf, aes(x=x, y=y)) +
   geom_hline(aes(yintercept=x, frame=.frame), xaxisLine)+
   geom_vline(aes(xintercept=x, frame=.frame), yaxisLine)+
   geom_point(aes(frame=.frame, size=size, alpha =alpha, colour = colour)) + 
-#  geom_smooth(method="lm", se=FALSE, size=1.15, alpha=.75, colour='#F8766D')+
-  geom_abline(aes(frame=.frame, intercept=x, slope=y, colour=colour, size=size),reg, linetype='dashed', size=1.15, alpha=.75)+
+  geom_abline(aes(intercept=coef(trueLm)[1], slope=coef(trueLm)[2], colour='#F8766D'),linetype='dashed', size=1.15, alpha=.75)+
   scale_colour_identity() + 
   scale_alpha(range = c(.75, 1), guide = 'none') +
   scale_linetype()+
@@ -97,4 +79,4 @@ p <- ggplot(data=tf, aes(x=x, y=y)) +
         plot.background=element_blank())
 
 animation::ani.options(interval = 1/15)
-gganimate(p, "lmStudents.html", title_frame = F)
+gganimate(p, "predictStudents.html", title_frame = F)
