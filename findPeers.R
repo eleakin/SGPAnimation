@@ -5,48 +5,49 @@
 set.seed(20160119)
 
 # Making up data
-d <- data.frame(x = rnorm(50), y = rnorm(50), time = sample(100, 50), alpha = 1, 
+d <- data.frame(x = rnorm(50), y = rnorm(50), alpha = 1, 
                 size = .25, colour='#6699FF', id = 1:50,
                 stringsAsFactors = FALSE)
-d2<-d
-d2$time <- d$time + 10
-
 #Run regression and predict new set of datapoints to shift into
 trueLm<-lm(y~x, d)
-d3<-data.frame(x =d[1], y =predict(lm(y~x,d)),
-                    colour=rep('#F8766D',50),
-                    stringsAsFactors = FALSE)
-d4 <- d3
+d1<-data.frame(x=seq(-2,2,.075), colour=rep('#F8766D',54),alpha = 1, 
+               size = .25, id = 1:54,
+               stringsAsFactors = FALSE)
+d1$y<-predict(trueLm, d1)
+d2<-d1
 
 
+#Single out an observation to be the reference student
+d3<-d2
+point<-d3[23,c("x","y")]
 
 
-ts <- list(d, d2,d3,d4)
+ts <- list(d1, d3)
 
 
 # Using tweenr
 tf <- tween_states(ts, tweenlength = 2, statelength = 1, 
-                   ease = c('linear', 'linear'), 
+                   ease = c('cubic-in-out', 'cubic-in-out','cubic-in-out'), 
                    nframes = 150)
 
+#Single out an observation to be the reference student and change color
+tf$colour<-ifelse(tf$id==23 & tf$.frame>50,'#00BD5C','#F8766D')
+
+
 #Plot x-axis title
-xaxisLogo <- data.frame(x=0, y=-2.5, label = 'Prior Achievement', stringsAsFactors = F)
+xaxisLogo <- data.frame(x=0, y=-.21, label = 'Prior Achievement', stringsAsFactors = F)
 xaxisLogo <- xaxisLogo[rep(1, 152),]
 xaxisLogo$.frame <- 1:152
 
 #Plot x-axis line
-xaxisLine <- data.frame(x=-2.25, stringsAsFactors = F)
+xaxisLine <- data.frame(x=-.2, stringsAsFactors = F)
 xaxisLine <- xaxisLine[rep(1, 152),1,drop=FALSE]
 xaxisLine$.frame <- 1:152
 
 #Plot y-axis title
-yaxisLogo_1 <- data.frame(x=-2.5, y=0, label = 'EOY Achievement', stringsAsFactors = F)
-yaxisLogo_1 <- yaxisLogo_1[rep(1, 95),]
-yaxisLogo_1$.frame <- 1:95
-yaxisLogo_2 <- data.frame(x=-2.5, y=0, label = 'Fitted EOY Achievement', stringsAsFactors = F)
-yaxisLogo_2 <- yaxisLogo_2[rep(1, 57),]
-yaxisLogo_2$.frame <- 96:152
-yaxisLogo<-rbind(yaxisLogo_1, yaxisLogo_2)
+yaxisLogo <- data.frame(x=-2.5, y=0, label = 'Fitted EOY Achievement', stringsAsFactors = F)
+yaxisLogo <- yaxisLogo[rep(1, 152),]
+yaxisLogo$.frame <- 1:152
 
 #Plot y-axis line
 yaxisLine <- data.frame(x=-2.25, stringsAsFactors = F)
@@ -60,7 +61,7 @@ p <- ggplot(data=tf, aes(x=x, y=y)) +
   geom_hline(aes(yintercept=x, frame=.frame), xaxisLine)+
   geom_vline(aes(xintercept=x, frame=.frame), yaxisLine)+
   geom_point(aes(frame=.frame, size=size, alpha =alpha, colour = colour)) + 
-  geom_abline(aes(intercept=coef(trueLm)[1], slope=coef(trueLm)[2], colour='#F8766D'),linetype='dashed', size=1.15, alpha=.75)+
+  geom_abline(aes(intercept=coef(trueLm)[1], slope=coef(trueLm)[2], colour='#F8766D'), size=1.15, alpha=.75)+
   scale_colour_identity() + 
   scale_alpha(range = c(.75, 1), guide = 'none') +
   scale_linetype()+
@@ -79,4 +80,4 @@ p <- ggplot(data=tf, aes(x=x, y=y)) +
         plot.background=element_blank())
 
 animation::ani.options(interval = 1/15)
-gganimate(p, "predictStudents.html", title_frame = F)
+gganimate(p, "findPeers.html", title_frame = F)
