@@ -41,10 +41,33 @@ yaxisLine <- data.frame(x=-2.25, stringsAsFactors = F)
 yaxisLine <- yaxisLine[rep(1, 152),1,drop=FALSE]
 yaxisLine$.frame <- 1:152
 
-#Create dataframe of regression line
-reg<-data.frame(x =0.5, y = sample(-10:10,100, replace=TRUE), time = sample(100, 100),
-                colour='red', .frame = 1:100,
+#Create dataframe of random regression lines
+reg<-data.frame(x =sample(c(-0.5,0,0.5),10, replace=TRUE), y = runif(10, min=0, max=2),
+                colour='#F8766D',
                 stringsAsFactors = FALSE)
+reg<-reg[rep(seq_len(nrow(reg)), each=10),]
+
+reg$time<-sample(100, 10)
+
+#Add true regression line to dataframe
+trueLm<-lm(y~x, d)
+trueReg<-data.frame(x =rep(coef(trueLm)[1],6), y =rep(coef(trueLm)[2],6),
+                colour=rep(c('#F8766D',"white","white"),6),
+                stringsAsFactors = FALSE)
+trueReg$time<-sample(100, 6)
+
+finalReg<-data.frame(x =rep(coef(trueLm)[1],20), y =rep(coef(trueLm)[2],20),
+                    colour=rep(c('#F8766D'),20),
+                    stringsAsFactors = FALSE)
+finalReg$time<-sample(100, 20)
+
+
+reg<-rbind(reg,trueReg, finalReg)
+
+
+
+reg$.frame<-15:152
+
 
 
 # Animate with gganimate
@@ -54,9 +77,10 @@ p <- ggplot(data=tf, aes(x=x, y=y)) +
   geom_hline(aes(yintercept=x, frame=.frame), xaxisLine)+
   geom_vline(aes(xintercept=x, frame=.frame), yaxisLine)+
   geom_point(aes(frame=.frame, size=size, alpha =alpha, colour = colour)) + 
-  geom_abline(aes(frame=.frame, intercept=x, slope=y, colour=colour, size=size),reg, linetype='dashed', size=1)+
+#  geom_smooth(method="lm", se=FALSE, size=1.15, alpha=.75, colour='#F8766D')+
+  geom_abline(aes(frame=.frame, intercept=x, slope=y, colour=colour, size=size),reg, linetype='dashed', size=1.15, alpha=.75)+
   scale_colour_identity() + 
-  scale_alpha(range = c(1, 1), guide = 'none') +
+  scale_alpha(range = c(.75, 1), guide = 'none') +
   scale_linetype()+
   
   theme(axis.line=element_blank(),
