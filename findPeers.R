@@ -5,12 +5,12 @@
 set.seed(20160119)
 
 # Making up data
-d <- data.frame(x = rnorm(50), y = rnorm(50), alpha=.5,
+d <- data.frame(x = rnorm(50), y = rnorm(50), alpha=1,
                 size = .25, colour='#6699FF', id = 1:50,
                 stringsAsFactors = FALSE)
 #Run regression and predict new set of datapoints to shift into
 trueLm<-lm(y~x, d)
-d1<-data.frame(x=seq(-2,2,.075), colour=rep('#F8766D',54), alpha=.5,
+d1<-data.frame(x=seq(-2,2,.075), colour=rep('#F8766D',54), alpha=1,
                size = .25, id = 1:54,
                stringsAsFactors = FALSE)
 d1$y<-predict(trueLm, d1)
@@ -35,7 +35,7 @@ tf <- tween_states(ts, tweenlength = 2, statelength = 1,
 
 #Single out an observation to be the reference student and change color
 tf$colour<-ifelse(tf$id==23 & tf$.frame>25,'#00BD5C','#F8766D')
-tf$alpha<-ifelse(tf$id==23 & tf$.frame>25,1,tf$alpa)
+tf$alpha<-ifelse(tf$id==23 & tf$.frame>25,1,tf$alpha)
 
 #Single out the ten points below the reference student (for later: make this more programmtic) 
 for (i in 22:13){
@@ -47,6 +47,10 @@ for (i in 22:13){
   
   print(frameiter)
 }
+#Add text for 50 students below
+below <- data.frame(x=0, y=-.21, label = 'Prior Achievement', stringsAsFactors = F)
+below <- below[rep(1, 300),]
+below$.frame <- 1:300
 
 for (i in 24:33){
   if (i==24){j=0}
@@ -79,7 +83,7 @@ yaxisLine <- yaxisLine[rep(1, 300),1,drop=FALSE]
 yaxisLine$.frame <- 1:300
 
 #Plot rectangle to highlight 50 peers above and below
-below<-data.frame(x=)
+#below<-data.frame(x=)
 
 # Animate with gganimate
 p <- ggplot(data=tf, aes(x=x, y=y)) + 
@@ -91,10 +95,17 @@ p <- ggplot(data=tf, aes(x=x, y=y)) +
   geom_abline(aes(intercept=coef(trueLm)[1], slope=coef(trueLm)[2], colour='#F8766D'), size=1.15, alpha=.75)+
 #  annotate("rect", xmin=-0.35, xmax=0.4, ymin=-.2, ymax=.2, alpha=0.25)+
 #  annotate("rect", xmin=-1.1, xmax=-0.35, ymin=-.2, ymax=.2, alpha=0.25, frame=50:152)+
+#  annotate("segment", x =-1.1, xend =-0.425, y = -0.0868-.03, yend = -0.039-.03, arrow=arrow(ends="both", angle=90, length=unit(.2,"cm"))) +
   scale_colour_identity() + 
   scale_alpha(range = c(0.1, 1), guide = 'none') +
   scale_linetype()+
-  theme(legend.position="none",
+  theme(axis.line=element_blank(),
+        axis.text.x=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks=element_blank(),
+        axis.title.x=element_blank(),
+        axis.title.y=element_blank(),
+        legend.position="none",
         panel.background=element_blank(),
         panel.border=element_blank(),
         panel.grid.major=element_blank(),
@@ -102,4 +113,4 @@ p <- ggplot(data=tf, aes(x=x, y=y)) +
         plot.background=element_blank())
 
 animation::ani.options(interval = 1/15)
-gganimate(p, "findPeers.html", title_frame = F)
+gganimate(p, "Peers/findPeers.html", title_frame = F)
