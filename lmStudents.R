@@ -97,4 +97,4 @@ p <- ggplot(data=tf, aes(x=x, y=y)) +
         plot.background=element_blank())
 
 animation::ani.options(interval = 1/15)
-gganimate(p, "lmStudents.html", title_frame = F)
+gganimate(p, "Reg/lmStudents.html", title_frame = F)

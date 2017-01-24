@@ -14,6 +14,9 @@ set.seed(20160119)
 d <- data.frame(x = rnorm(50), y = rnorm(50), time = sample(100, 50), alpha = 0, 
                 size = 10, colour=gg_color_hue(50), id = 1:50,
                 stringsAsFactors = FALSE)
+
+#restrict y values that are too negative
+d$y<-ifelse(d$y<(-2.2),-2, d$y)
 d2 <- d
 d2$time <- d$time + 10
 d2$alpha <- 1
@@ -57,7 +60,7 @@ p <- ggplot(data=tf, aes(x=x, y=y)) +
   geom_vline(aes(xintercept=x, frame=.frame), yaxisLine)+
   geom_point(aes(frame=.frame, size=size, alpha =alpha, colour = colour)) + 
   scale_colour_identity() + 
-  scale_alpha(range = c(1, 1), guide = 'none') +
+  scale_alpha(range = c(.5, 1), guide = 'none') +
   scale_size(range = c(2, 15), guide = 'none') + 
   theme(axis.line=element_blank(),
         axis.text.x=element_blank(),
@@ -73,4 +76,4 @@ p <- ggplot(data=tf, aes(x=x, y=y)) +
         plot.background=element_blank())
 
 animation::ani.options(interval = 1/15)
-gganimate(p, "plotStudents.html", title_frame = F)
+gganimate(p, "Plot/plotStudents.html", title_frame = F)

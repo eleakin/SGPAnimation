@@ -46,4 +46,4 @@ p <- ggplot(data = dt) +
 
 animation::ani.options(interval = 1/24)
 #Save
-gganimate(p, 'studentAppear.html', title_frame = F)
+gganimate(p, 'Appear/studentAppear.html', title_frame = F)
