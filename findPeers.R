@@ -1,5 +1,5 @@
-#Purpose of this script is to create a gif of points on a 2D plane with a sequence of possible regression lines overlaid on top until the 
-# true regression line
+#Purpose of this script is to create a gif of points on a regression line, highlight a reference student, and then highlight the bottom
+# and top points.
 
 #set seed
 set.seed(20160119)
@@ -73,22 +73,32 @@ xaxisLine <- xaxisLine[rep(1, 300),1,drop=FALSE]
 xaxisLine$.frame <- 1:300
 
 #Plot y-axis title
-yaxisLogo <- data.frame(x=-2.5, y=0, label = 'Fitted EOY Achievement', stringsAsFactors = F)
+yaxisLogo <- data.frame(x=-2.75, y=0, label = 'Fitted EOY Achievement', stringsAsFactors = F)
 yaxisLogo <- yaxisLogo[rep(1, 300),]
 yaxisLogo$.frame <- 1:300
 
 #Plot y-axis line
-yaxisLine <- data.frame(x=-2.25, stringsAsFactors = F)
+yaxisLine <- data.frame(x=-2.5, stringsAsFactors = F)
 yaxisLine <- yaxisLine[rep(1, 300),1,drop=FALSE]
 yaxisLine$.frame <- 1:300
 
-#Plot rectangle to highlight 50 peers above and below
-#below<-data.frame(x=)
+#Plot 50 Nearest Neighbors Below
+belowLogo <- data.frame(x=.5, y=-0.1, label = '50 Similar Students Below', stringsAsFactors = F)
+belowLogo <- belowLogo[rep(1, 190),]
+belowLogo$.frame <- 111:300
+
+#Plot 50 Nearest Neighbors Above
+aboveLogo <- data.frame(x=-1.15, y=0.02, label = '50 Similar Students Above', stringsAsFactors = F)
+aboveLogo <- aboveLogo[rep(1, 60),]
+aboveLogo$.frame <- 241:300
 
 # Animate with gganimate
 p <- ggplot(data=tf, aes(x=x, y=y)) + 
   geom_text(aes(label = label, frame = .frame), data=xaxisLogo, size = 9) +
   geom_text(aes(label = label, frame = .frame), data=yaxisLogo, size = 9, angle=90) + 
+  geom_text(aes(label = label, frame = .frame), data=aboveLogo, size = 6.5) +
+  geom_text(aes(label = label, frame = .frame), data=belowLogo, size = 6.5) + 
+  
   geom_hline(aes(yintercept=x, frame=.frame), xaxisLine)+
   geom_vline(aes(xintercept=x, frame=.frame), yaxisLine)+
   geom_point(aes(frame=.frame, size=size, alpha =alpha, colour = colour)) + 
@@ -99,6 +109,7 @@ p <- ggplot(data=tf, aes(x=x, y=y)) +
   scale_colour_identity() + 
   scale_alpha(range = c(0.1, 1), guide = 'none') +
   scale_linetype()+
+#  expand_limits(x=c(-2.5,4))+
   theme(axis.line=element_blank(),
         axis.text.x=element_blank(),
         axis.text.y=element_blank(),
