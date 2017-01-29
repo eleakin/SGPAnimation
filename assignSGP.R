@@ -24,7 +24,7 @@ d1<-rbind(topdf,d1[d1$id==23,],bottomdf)
 
 d1$id<-1:41
 
-d1$x<-d1$x-1
+d1$x<-d1$x-0.5
 
 
 #Single out an observation to be the reference student
@@ -85,13 +85,13 @@ betweenLogo$.frame <- 140:300
 
 #Plot y-axis line for actual EOY Achievement
 transLine <- data.frame(x=0, stringsAsFactors = F)
-transLine <- transLine[rep(1, 161),1,drop=FALSE]
-transLine$.frame <- 140:300
+transLine <- transLine[rep(1, 121),1,drop=FALSE]
+transLine$.frame <- 180:300
 
 #Plot y-axis line for actual EOY Achievement
 transLogo <- data.frame(x=0.25, y=0, label = 'Actual EOY Achievement', stringsAsFactors = F)
-transLogo <- transLogo[rep(1, 161),]
-transLogo$.frame <- 140:300
+transLogo <- transLogo[rep(1, 121),]
+transLogo$.frame <- 180:300
 
 
 #Plot SGP Result
@@ -117,7 +117,12 @@ p <- ggplot(data=tf, aes(x=x, y=y)) +
 #  scale_alpha(range = c(0.2, 1), guide = 'none') +
   scale_linetype()+
   expand_limits(x=c(-2.75,.5))+
-  theme(
+  theme(axis.line=element_blank(),
+        axis.text.x=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks=element_blank(),
+        axis.title.x=element_blank(),
+        axis.title.y=element_blank(),
         legend.position="none",
         panel.background=element_blank(),
         panel.border=element_blank(),
@@ -126,4 +131,4 @@ p <- ggplot(data=tf, aes(x=x, y=y)) +
         plot.background=element_blank())
 
 animation::ani.options(interval = 1/15)
-gganimate(p, "assignSGP.html", title_frame = F)
+gganimate(p, "SGP/assignSGP.html", title_frame = F)
