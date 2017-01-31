@@ -54,7 +54,7 @@ yaxisLine <- yaxisLine[rep(1, 152),1,drop=FALSE]
 yaxisLine$.frame <- 1:152
 
 # Animate with gganimate
-p <- ggplot(data=tf, aes(x=x, y=y)) + 
+p4 <- ggplot(data=tf, aes(x=x, y=y)) + 
   geom_text(aes(label = label, frame = .frame), data=xaxisLogo, size = 9) +
   geom_text(aes(label = label, frame = .frame), data=yaxisLogo, size = 9, angle=90) + 
   geom_hline(aes(yintercept=x, frame=.frame), xaxisLine)+
@@ -79,4 +79,4 @@ p <- ggplot(data=tf, aes(x=x, y=y)) +
         plot.background=element_blank())
 
 animation::ani.options(interval = 1/15)
-gganimate(p, "predictStudents.html", title_frame = F)
+#gganimate(p, "predictStudents.html", title_frame = F)

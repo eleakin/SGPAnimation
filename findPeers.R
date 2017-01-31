@@ -93,7 +93,7 @@ aboveLogo <- aboveLogo[rep(1, 60),]
 aboveLogo$.frame <- 241:300
 
 # Animate with gganimate
-p <- ggplot(data=tf, aes(x=x, y=y)) + 
+p5 <- ggplot(data=tf, aes(x=x, y=y)) + 
   geom_text(aes(label = label, frame = .frame), data=xaxisLogo, size = 9) +
   geom_text(aes(label = label, frame = .frame), data=yaxisLogo, size = 9, angle=90) + 
   geom_text(aes(label = label, frame = .frame), data=aboveLogo, size = 6.5) +
@@ -124,4 +124,4 @@ p <- ggplot(data=tf, aes(x=x, y=y)) +
         plot.background=element_blank())
 
 animation::ani.options(interval = 1/15)
-gganimate(p, "Peers/findPeers.html", title_frame = F)
+#gganimate(p, "Peers/findPeers.html", title_frame = F)

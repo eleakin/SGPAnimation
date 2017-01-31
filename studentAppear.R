@@ -1,5 +1,9 @@
 #Purpose of this script is to create a gif of points of varying colors and size appearing randomly on a plane
 
+# library(ggplot2)
+# library(gganimate)
+# library(ggforce)
+# library(tweenr)
 #set seed
 set.seed(20160118)
 
@@ -7,15 +11,16 @@ set.seed(20160118)
 d <- data.frame(x = rnorm(50), y = rnorm(50), time = sample(100, 50), alpha = 0, 
                 size = 1, ease = 'elastic-out', id = 1:50, 
                 stringsAsFactors = FALSE)
+#d$time<d$time+10
 d2 <- d
 d2$time <- d$time + 10
 d2$alpha <- 1
-d2$size <- 3
+d2$size <-sample(c(3,5,10),50, replace=TRUE)
 d2$ease <- 'linear'
 
 d3 <- d2
 d3$time <- d2$time + sample(50:100, 50)
-d3$size = 10
+#d3$size <-sample(c(3,5,10),50, replace=TRUE)
 d3$ease <- 'bounce-out'
 
 d4 <- d3
@@ -27,7 +32,7 @@ df <- rbind(d, d2, d3, d4)
 dt <- tween_elements(df, 'time', 'id', 'ease', nframes = 150)
 
 # Animate with gganimate
-p <- ggplot(data = dt) + 
+p1 <- ggplot(data = dt) + 
   geom_point(aes(x=x, y=y, size=size, alpha=alpha, frame= .frame, colour=factor(x)))+ 
   scale_size(range = c(0.1, 20), guide = 'none') + 
   scale_alpha(range = c(0, 1), guide = 'none') +
@@ -44,6 +49,6 @@ p <- ggplot(data = dt) +
         panel.grid.minor=element_blank(),
         plot.background=element_blank())
 
-animation::ani.options(interval = 1/24)
+animation::ani.options(interval = 1/15)
 #Save
-gganimate(p, 'Appear/studentAppear.html', title_frame = F)
+#gganimate(p, 'Appear/studentAppear.html', title_frame = F)

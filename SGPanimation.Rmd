@@ -41,58 +41,78 @@ Purpose of this book is to develop an animation that takes advantage of **gganim
 
 ## Load Packages
 
-```{r packages}
+```{r packages, include=FALSE}
 library(ggplot2)
 library(gganimate)
 library(ggforce)
 library(tweenr)
+source('studentAppear.R')
+source('plotStudents.R')
+source('lmStudents.R')
+source('predictStudents.R')
+source('findPeers.R')
+source('assignSGP.R')
 ```
 
-## Create Data
+## Students of All Backgrounds
 
-The data created below is based on the **tweenr** Github example
+*Under Construction - Explanation pending*
+```{r appear, echo=FALSE, fig.show='animate', interval=1/15, fig.align='center'}
 
-```{r loadData, echo=TRUE}
-# Making up data
-t <- data.frame(x=seq(0:11), y=rep(0,12), colour = 'forestgreen', size=0.5, alpha = 1, 
-                stringsAsFactors = FALSE)
-t$colour<-ifelse(t$x==5, 'steelblue',t$colour)
-#t <- t[rep(1, 12),]
-#t$alpha[2:12] <- 0
-t2 <- t
-t2$y <- 1
-t2$x<-0
-t2$colour <- 'firebrick'
-t2$size<-10
-t3 <- t2
-t3$x <- 1
-t3$colour <- 'steelblue'
-t4 <- t3
-t4$y <- 0
-t4$colour <- 'goldenrod'
-t9 <- t
-ts <- list(t, t2)
+gganimate(p1, title_frame = FALSE)
+
 ```
 
-## Apply **tweenr** Function and Plot
-For the time being, I am just trying to wrap my head around using **tweenr** package. The goal is to plot 10 distinct points that lie on the x-axis and then converge into a larger point on the y-axis.
+## Plot Students by Prior Achievement
 
-Still having trouble plotting the animation file in markdown and getting the plot to loop/run quickly.
-```{r tweenr, echo=TRUE, fig.show='animate', interval=1/15}
-# Using tweenr
-tf <- tween_states(ts, tweenlength = 2, statelength = 1, 
-                   ease = c('cubic-in-out', 'elastic-out'), 
-                   nframes = 175)
+*Under Construction - Explanation pending*
 
-# Animate with gganimate
-p <- ggplot(data=tf, aes(x=x, y=y)) + 
-  #geom_text(aes(label = label, frame = .frame), data=tweenlogo, size = 13) + 
-  geom_point(aes(frame=.frame, size=size, alpha =alpha, colour = colour)) + 
-  scale_colour_identity() + 
-  scale_alpha(range = c(1, 1), guide = 'none') +
-  scale_size(range = c(2, 15), guide = 'none') + 
-  theme_bw()
-animation::ani.options(interval = 1/15)
-gganimate(p)
+```{r plot, echo=FALSE, fig.show='animate', interval=1/15}
+
+gganimate(p2, title_frame = FALSE)
+
 ```
-The plot above should be animated.
+
+## Fit a Regression Line
+
+*Under Construction - Explanation pending*
+
+```{r lm, echo=FALSE, fig.show='animate', interval=1/15}
+
+gganimate(p3, title_frame = FALSE)
+
+```
+
+##Estimate Fitted EOY Achievement
+
+*Under Construction - Explanation pending*
+
+```{r predict, echo=FALSE, fig.show='animate', interval=1/15}
+
+gganimate(p4, title_frame = FALSE)
+
+```
+
+##Assign peer groups for each student
+
+*Under Construction - Explanation pending*
+
+
+```{r findPeers, echo=FALSE, fig.show='animate', interval=1/15}
+
+gganimate(p5, title_frame = FALSE)
+
+```
+
+##Assign Student Growth Percentile
+
+*Under Construction - Explanation pending*
+
+
+
+```{r assign, echo=FALSE, fig.show='animate', interval=1/15}
+
+gganimate(p6, title_frame = FALSE)
+
+```
+

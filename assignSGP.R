@@ -100,7 +100,7 @@ sgp <- sgp[rep(1, 42),]
 sgp$.frame <- 259:300
 
 # Animate with gganimate
-p <- ggplot(data=tf, aes(x=x, y=y)) + 
+p6 <- ggplot(data=tf, aes(x=x, y=y)) + 
   geom_text(aes(label = label, frame = .frame), data=xaxisLogo, size = 6.5) +
   geom_text(aes(label = label, frame = .frame), data=yaxisLogo, size = 6.5, angle=90) + 
   geom_text(aes(label = label, frame = .frame), data=transLogo, size = 6.5, angle=90) + 
@@ -131,4 +131,4 @@ p <- ggplot(data=tf, aes(x=x, y=y)) +
         plot.background=element_blank())
 
 animation::ani.options(interval = 1/15)
-gganimate(p, "SGP/assignSGP.html", title_frame = F)
+#gganimate(p, "SGP/assignSGP.html", title_frame = F)

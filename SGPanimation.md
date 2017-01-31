@@ -9,63 +9,42 @@ Purpose of this book is to develop an animation that takes advantage of **gganim
 Load Packages
 -------------
 
-``` r
-library(ggplot2)
-library(gganimate)
-library(ggforce)
-library(tweenr)
-```
+Students of All Backgrounds
+---------------------------
 
-Create Data
------------
+*Under Construction - Explanation pending* ![appear](SGPAnimationFiles/fig-appear-.gif)
 
-The data created below is based on the **tweenr** Github example
-
-``` r
-# Making up data
-t <- data.frame(x=seq(0:11), y=rep(0,12), colour = 'forestgreen', size=0.5, alpha = 1, 
-                stringsAsFactors = FALSE)
-t$colour<-ifelse(t$x==5, 'steelblue',t$colour)
-#t <- t[rep(1, 12),]
-#t$alpha[2:12] <- 0
-t2 <- t
-t2$y <- 1
-t2$x<-0
-t2$colour <- 'firebrick'
-t2$size<-10
-t3 <- t2
-t3$x <- 1
-t3$colour <- 'steelblue'
-t4 <- t3
-t4$y <- 0
-t4$colour <- 'goldenrod'
-t9 <- t
-ts <- list(t, t2)
-```
-
-Apply **tweenr** Function and Plot
+Plot Students by Prior Achievement
 ----------------------------------
 
-For the time being, I am just trying to wrap my head around using **tweenr** package. The gola is to plot 10 distinct points that then convert into a larger point.
+*Under Construction - Explanation pending*
 
-Still having trouble plotting the animation file in markdown and getting the plot to loop/run quickly.
+![plot](SGPAnimationFiles/fig-plot-.gif)
 
-``` r
-# Using tweenr
-tf <- tween_states(ts, tweenlength = 2, statelength = 1, 
-                   ease = c('cubic-in-out', 'elastic-out'), 
-                   nframes = 175)
+Fit a Regression Line
+---------------------
 
-# Animate with gganimate
-p <- ggplot(data=tf, aes(x=x, y=y)) + 
-  #geom_text(aes(label = label, frame = .frame), data=tweenlogo, size = 13) + 
-  geom_point(aes(frame=.frame, size=size, alpha =alpha, colour = colour)) + 
-  scale_colour_identity() + 
-  scale_alpha(range = c(1, 1), guide = 'none') +
-  scale_size(range = c(2, 15), guide = 'none') + 
-  theme_bw()
-animation::ani.options(interval = 1/15)
-gganimate(p)
-```
+*Under Construction - Explanation pending*
 
-![tweenr](SGPAnimationFiles/fig-tweenr-.gif) The plot above should be animated.
+![lm](SGPAnimationFiles/fig-lm-.gif)
+
+Estimate Fitted EOY Achievement
+-------------------------------
+
+*Under Construction - Explanation pending*
+
+![predict](SGPAnimationFiles/fig-predict-.gif)
+
+Assign peer groups for each student
+-----------------------------------
+
+*Under Construction - Explanation pending*
+
+![findPeers](SGPAnimationFiles/fig-findPeers-.gif)
+
+Assign Student Growth Percentile
+--------------------------------
+
+*Under Construction - Explanation pending*
+
+![assign](SGPAnimationFiles/fig-assign-.gif)

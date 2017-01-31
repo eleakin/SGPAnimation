@@ -71,7 +71,7 @@ reg$.frame<-15:152
 
 
 # Animate with gganimate
-p <- ggplot(data=tf, aes(x=x, y=y)) + 
+p3 <- ggplot(data=tf, aes(x=x, y=y)) + 
   geom_text(aes(label = label, frame = .frame), data=xaxisLogo, size = 9) +
   geom_text(aes(label = label, frame = .frame), data=yaxisLogo, size = 9, angle=90) + 
   geom_hline(aes(yintercept=x, frame=.frame), xaxisLine)+
@@ -97,4 +97,4 @@ p <- ggplot(data=tf, aes(x=x, y=y)) +
         plot.background=element_blank())
 
 animation::ani.options(interval = 1/15)
-gganimate(p, "Reg/lmStudents.html", title_frame = F)
+#gganimate(p, "Reg/lmStudents.html", title_frame = F)
