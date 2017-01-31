@@ -37,7 +37,9 @@ opts_chunk$set(cache = TRUE, message = FALSE, warning = FALSE, fig.show = "anima
 ```
 
 ## Purpose
-Purpose of this book is to develop an animation that takes advantage of **gganimate**, **tweenr**, and other R packages. The animation will hopefully provide an intuitive animation for how student growth percentiles are created in the NYC Department of Education.
+Purpose of this book is to develop an animation that takes advantage of **gganimate**, **tweenr**, and other R packages. The animation will hopefully provide an intuitive animation for how student growth percentiles are calculated using an approach *similar* to the NYC Department of Education.
+
+**Disclaimer**: I contributed to this book my own personal capacity. The views and content expressed here are my own and do not necessarily represent the views of the NYC Department of Education. 
 
 ## Load Packages
 
