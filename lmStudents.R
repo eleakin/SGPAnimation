@@ -72,8 +72,8 @@ reg$.frame<-15:152
 
 # Animate with gganimate
 p3 <- ggplot(data=tf, aes(x=x, y=y)) + 
-  geom_text(aes(label = label, frame = .frame), data=xaxisLogo, size = 9) +
-  geom_text(aes(label = label, frame = .frame), data=yaxisLogo, size = 9, angle=90) + 
+  geom_text(aes(label = label, frame = .frame), data=xaxisLogo, size = 6.5) +
+  geom_text(aes(label = label, frame = .frame), data=yaxisLogo, size = 6.5, angle=90) + 
   geom_hline(aes(yintercept=x, frame=.frame), xaxisLine)+
   geom_vline(aes(xintercept=x, frame=.frame), yaxisLine)+
   geom_point(aes(frame=.frame, size=size, alpha =alpha, colour = colour)) + 

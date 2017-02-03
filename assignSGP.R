@@ -37,7 +37,7 @@ d2[d2$id==21,]$colour<-"#00BD5C"
 d2[d2$id!=21,]$colour<-"#C77CFF"
 
 #Create dataframe of points that lie on vertical line
-d3<-data.frame(y=seq(-0.2, 0.2, .4/40), x=rep(-2,41), colour=rep('#C77CFF',41), alpha=1,
+d3<-data.frame(y=seq(-0.4, 0.4, .8/40), x=rep(-2.25,41), colour=rep('#C77CFF',41), alpha=1,
                size = .25, id = 1:41)
 
 #Reidentify reference student
@@ -45,7 +45,7 @@ d3$colour<-ifelse(d3$id==21, "#00BD5C", '#C77CFF')
 
 
 #Shift points in d3 to create a true EOY score
-d4<-data.frame(y=sample(seq(-0.2, 0.2, .4/40),41), x=rep(-.25,41), colour=rep('#C77CFF',41), alpha=1,
+d4<-data.frame(y=sample(seq(-0.4, 0.4, .8/40),41), x=rep(.25,41), colour=rep('#C77CFF',41), alpha=1,
                size = .25, id = 1:41)
 
 #Reidentify reference student
@@ -59,13 +59,13 @@ tf <- tween_states(ts, tweenlength = 2, statelength = 1,
                    nframes = 300)
 
 #Plot x-axis title
-xaxisLogo <- data.frame(x=-1, y=-.21, label = 'Prior Achievement', stringsAsFactors = F)
-xaxisLogo <- xaxisLogo[rep(1, 300),]
+xaxisLogo <- data.frame(x=-1, y=-.32, label = 'Prior Achievement', stringsAsFactors = F)
+xaxisLogo <- xaxisLogo[rep(1, 50),]
 xaxisLogo$.frame <- 1:50
 
 #Plot x-axis line
-xaxisLine <- data.frame(x=-.2, stringsAsFactors = F)
-xaxisLine <- xaxisLine[rep(1, 300),1,drop=FALSE]
+xaxisLine <- data.frame(x=-.3, stringsAsFactors = F)
+xaxisLine <- xaxisLine[rep(1, 50),1,drop=FALSE]
 xaxisLine$.frame <- 1:50
 
 #Plot y-axis title
@@ -79,23 +79,23 @@ yaxisLine <- yaxisLine[rep(1, 300),1,drop=FALSE]
 yaxisLine$.frame <- 1:300
 
 #Plot text for transformation
-betweenLogo <- data.frame(x=-1.15, y=0, label = 'Rank on Actual\n EOY Achievement', stringsAsFactors = F)
+betweenLogo <- data.frame(x=-1, y=0, label = 'Rank on Actual\n EOY Achievement', stringsAsFactors = F)
 betweenLogo <- betweenLogo[rep(1, 161),]
 betweenLogo$.frame <- 140:300
 
 #Plot y-axis line for actual EOY Achievement
-transLine <- data.frame(x=0, stringsAsFactors = F)
+transLine <- data.frame(x=0.5, stringsAsFactors = F)
 transLine <- transLine[rep(1, 121),1,drop=FALSE]
 transLine$.frame <- 180:300
 
 #Plot y-axis line for actual EOY Achievement
-transLogo <- data.frame(x=0.25, y=0, label = 'Actual EOY Achievement', stringsAsFactors = F)
+transLogo <- data.frame(x=0.75, y=0, label = 'Actual EOY Achievement', stringsAsFactors = F)
 transLogo <- transLogo[rep(1, 121),]
 transLogo$.frame <- 180:300
 
 
 #Plot SGP Result
-sgp <- data.frame(x=-0.5, y=0.17, label = 'SGP = 92', stringsAsFactors = F)
+sgp <- data.frame(x=-1, y=0.25, label = 'SGP = 92', stringsAsFactors = F)
 sgp <- sgp[rep(1, 42),]
 sgp$.frame <- 259:300
 
@@ -116,7 +116,7 @@ p6 <- ggplot(data=tf, aes(x=x, y=y)) +
   scale_colour_identity() + 
 #  scale_alpha(range = c(0.2, 1), guide = 'none') +
   scale_linetype()+
-  expand_limits(x=c(-2.75,.5))+
+  expand_limits(x=c(-2.75,.9))+
   theme(axis.line=element_blank(),
         axis.text.x=element_blank(),
         axis.text.y=element_blank(),
@@ -131,4 +131,4 @@ p6 <- ggplot(data=tf, aes(x=x, y=y)) +
         plot.background=element_blank())
 
 animation::ani.options(interval = 1/15)
-#gganimate(p, "SGP/assignSGP.html", title_frame = F)
+#gganimate(p6, "SGP/assignSGP.html", title_frame = F)

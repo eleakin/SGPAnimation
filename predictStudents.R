@@ -26,7 +26,7 @@ ts <- list(d, d2,d3,d4)
 
 # Using tweenr
 tf <- tween_states(ts, tweenlength = 2, statelength = 1, 
-                   ease = c('linear', 'linear'), 
+                   ease = c('elastic-in-out', 'elastic-in-out'), 
                    nframes = 150)
 
 #Plot x-axis title
@@ -55,8 +55,8 @@ yaxisLine$.frame <- 1:152
 
 # Animate with gganimate
 p4 <- ggplot(data=tf, aes(x=x, y=y)) + 
-  geom_text(aes(label = label, frame = .frame), data=xaxisLogo, size = 9) +
-  geom_text(aes(label = label, frame = .frame), data=yaxisLogo, size = 9, angle=90) + 
+  geom_text(aes(label = label, frame = .frame), data=xaxisLogo, size = 6.5) +
+  geom_text(aes(label = label, frame = .frame), data=yaxisLogo, size = 6.5, angle=90) + 
   geom_hline(aes(yintercept=x, frame=.frame), xaxisLine)+
   geom_vline(aes(xintercept=x, frame=.frame), yaxisLine)+
   geom_point(aes(frame=.frame, size=size, alpha =alpha, colour = colour)) + 
@@ -79,4 +79,4 @@ p4 <- ggplot(data=tf, aes(x=x, y=y)) +
         plot.background=element_blank())
 
 animation::ani.options(interval = 1/15)
-#gganimate(p, "predictStudents.html", title_frame = F)
+#gganimate(p4, "predictStudents.html", title_frame = F)

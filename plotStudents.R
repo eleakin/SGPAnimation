@@ -6,13 +6,19 @@ gg_color_hue <- function(n) {
   hues = seq(15, 375, length = n + 1)
   hcl(h = hues, l = 65, c = 100)[1:n]
 }
-
+colourKeep<-c("#F37B59","#FC717F","#F066EA","#FF689F","#00A5FF","#BF80FF","#BB9D00","#AC88FF",
+              "#E7861B", "#DC71FA", "#5BB300", "#529EFF", "#C59900", "#00BBDB", "#00BFC4",
+              "#E76BF3","#00BA42", "#7997FF", "#FC61D5", "#00BC59", "#00C08D", "#00BF7D",
+              "#AFA100", "#00BE6C","#00B0F6", "#00B4EF", "#00BDD0", "#00B81F", "#72B000",
+              "#00C1AA", "#39B600", "#00ABFD","#FF62BC", "#FF6C90", "#A3A500", "#00C19C",
+              "#ED8141", "#D89000", "#CF78FF", "#85AD00","#F763E0", "#00C0B8", "#95A900",
+              "#9590FF", "#CF9400", "#FF61C9", "#F8766D", "#00B8E5","#E08B00", "#FF65AE")
 #set seed
 set.seed(20160119)
 
 # Making up data
-d <- data.frame(x = rnorm(50), y = rnorm(50), time = sample(100, 50), alpha = 0, 
-                size = 10, colour=gg_color_hue(50), id = 1:50,
+d <- data.frame(x = rnorm(50), y = rnorm(50), time = sample(100, 50), alpha = 1, 
+                size = sample(c(3,5,10),50, replace=TRUE), colour=colourKeep, id = 1:50,
                 stringsAsFactors = FALSE)
 
 #restrict y values that are too negative
@@ -54,8 +60,8 @@ yaxisLine$.frame <- 102:151
 
 # Animate with gganimate
 p2 <- ggplot(data=tf, aes(x=x, y=y)) + 
-  geom_text(aes(label = label, frame = .frame), data=xaxisLogo, size = 9) +
-  geom_text(aes(label = label, frame = .frame), data=yaxisLogo, size = 9, angle=90) + 
+  geom_text(aes(label = label, frame = .frame), data=xaxisLogo, size = 6.5) +
+  geom_text(aes(label = label, frame = .frame), data=yaxisLogo, size = 6.5, angle=90) + 
   geom_hline(aes(yintercept=x, frame=.frame), xaxisLine)+
   geom_vline(aes(xintercept=x, frame=.frame), yaxisLine)+
   geom_point(aes(frame=.frame, size=size, alpha =alpha, colour = colour)) + 
@@ -76,4 +82,4 @@ p2 <- ggplot(data=tf, aes(x=x, y=y)) +
         plot.background=element_blank())
 
 animation::ani.options(interval = 1/15)
-#gganimate(p, "Plot/plotStudents.html", title_frame = F)
+#gganimate(p2, "Plot/plotStudents.html", title_frame = F)
